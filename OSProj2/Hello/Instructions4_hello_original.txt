@@ -1,0 +1,47 @@
+To compile and load the module, and then check the output, you can follow these steps:
+
+Save the code as hello.c.
+Create the following Makefile in the same directory:
+
+obj-m += hello.o
+
+all:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+
+Run make to compile the module.
+Load the module into the kernel using sudo insmod hello.ko.
+Check the output using dmesg -T | tail.
+Verify that the module has been loaded using lsmod.
+Remove the module from the kernel using sudo rmmod hello.
+Check the output again using dmesg -T | tail.
+
+Questions:
+
+Which process is recognized as current when the module is loaded?
+
+When you load the module, the operating system sees the process that 
+initiated the loading process as the "current" process. This is typically 
+the shell or terminal session where you ran the insmod command.
+
+In newer kernels, what is the name of the parent process of all processes, 
+and what do you see from the module's output?
+
+In newer Linux kernels, the parent process of all processes is usually 
+named systemd or systemd-journal. When you run the module to print process 
+information, you'll likely see these names instead of init, which was traditionally
+the name of the parent process.
+
+From the module's output, which state(s) of a process are observed?
+
+When you print information about processes using the module, you'll see different 
+states that processes can be in. These states can include:
+
+Running: Indicates that the process is actively running on the CPU.
+Interruptible: Shows that the process is waiting for an event and can be interrupted.
+Uninterruptible: Indicates that the process is waiting for a resource and cannot be interrupted.
+Stopped: Signifies that the process has been stopped, usually by a signal.
+Traced: Shows that the process is being debugged or traced.
+

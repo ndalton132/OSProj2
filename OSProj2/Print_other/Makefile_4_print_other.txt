@@ -1,0 +1,25 @@
+Create a Makefile for compiling the module:
+
+obj-m += print_other.o
+
+all:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+
+Compile the Module
+Run make inside the print_other_module directory to compile the module.
+
+Step 5: Load and Remove the Module
+To load the module with a specific PID, run: insmod print_other.ko pid_to_print=<pid>
+To remove the module, run: rmmod print_other
+
+Step 6: Read the Module's Output
+To see the output of the module, you can use dmesg -T command.
+
+Notes:
+Replace <pid> with the PID of the process you want to print information for.
+Make sure the process with the specified PID exists and is active.
+This module uses a module parameter pid_to_print to specify the PID to print 
+information for. You can pass this parameter when loading the module with insmod.
